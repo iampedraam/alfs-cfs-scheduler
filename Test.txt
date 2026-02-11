@@ -1,0 +1,51 @@
+Terminal 1 (Sender):
+rm -f event.socket
+socat - UNIX-LISTEN:event.socket,reuseaddr
+
+
+Terminal 2:
+./alfs_scheduler event.socket [quanta] [CPU count]
+
+
+input format:
+{
+  "vtime": 0,
+  "events": [
+    { "action": "TASK_CREATE",
+    "taskId": "T1"
+    }
+  ]
+}
+{
+  "vtime": 1,
+  "events": []
+}
+
+
+Test case1:
+{"vtime":0,"events":[{"action":"TASK_CREATE","taskId":"A"},{"action":"TASK_CREATE","taskId":"B"}]}
+{"vtime":1,"events":[]}
+{"vtime":2,"events":[]}
+{"vtime":3,"events":[]}
+
+
+expected output:
+{"vtime":0,"schedule":["A"],"meta":{"preemptions":0,"migrations":0}}
+{"vtime":1,"schedule":["B"],"meta":{"preemptions":1,"migrations":0}}
+{"vtime":2,"schedule":["A"],"meta":{"preemptions":1,"migrations":0}}
+{"vtime":3,"schedule":["B"],"meta":{"preemptions":1,"migrations":0}}
+
+
+Test case 2:
+{"vtime":0,"events":[{"action":"TASK_CREATE","taskId":"A","nice":0},{"action":"TASK_CREATE","taskId":"B","nice":5}]}
+{"vtime":1,"events":[]}
+{"vtime":2,"events":[]}
+{"vtime":3,"events":[]}
+{"vtime":4,"events":[]}
+
+expected output:
+{"vtime":0,"schedule":["A"],"meta":{"preemptions":0,"migrations":0}}
+{"vtime":1,"schedule":["B"],"meta":{"preemptions":1,"migrations":0}}
+{"vtime":2,"schedule":["A"],"meta":{"preemptions":1,"migrations":0}}
+{"vtime":3,"schedule":["A"],"meta":{"preemptions":0,"migrations":0}}
+{"vtime":4,"schedule":["A"],"meta":{"preemptions":0,"migrations":0}}
