@@ -1,7 +1,3 @@
-# alfs-cfs-scheduler
-Linux CFS-inspired scheduler in C++ using a manual Min-Heap and Unix Domain Sockets.
-
-
 # 🚀 ALFS – A Linux CFS-Inspired Scheduler in C++
 
 ALFS (Advanced Lightweight Fair Scheduler) is a userspace simulation of the Linux **Completely Fair Scheduler (CFS)**, implemented in modern C++.
@@ -235,8 +231,3 @@ Where:
 * Linux CFS implementation:
   [https://github.com/torvalds/linux/blob/master/kernel/sched/fair.c](https://github.com/torvalds/linux/blob/master/kernel/sched/fair.c)
 * Linux `nice_to_weight` mapping
-
-
-# 👨‍💻 Author
-
-Developed as a systems-level scheduler simulation inspired by Linux CFS to deeply understand fairness scheduling and kernel-level design principles.
